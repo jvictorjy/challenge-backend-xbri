@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id         String    @id @default(uuid())
+  name       String    @db.VarChar(255)
+  email      String    @unique @db.VarChar(255)
+  password   String    @db.VarChar(255)
+  user_type  UserType
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+  Order      Order[]
+  Tire       Tire[]
+
+  @@map("users")
+}
+
+model Tire {
+  id                 String    @id @default(uuid())
+  name               String    @db.VarChar(255)
+  brand              String    @db.VarChar(255)
+  price              Float     @db.DoublePrecision
+  quantity_available Int       @db.Integer
+  seller_id          String    @db.VarChar(50)
+  created_at         DateTime  @default(now())
+  updated_at         DateTime  @updatedAt
+  deleted_at         DateTime?
+  Order              Order[]
+
+  seller Users @relation(fields: [seller_id], references: [id], onDelete: Cascade)
+
+  @@map("tire")
+}
+
+model Order {
+  id          String    @id @default(uuid())
+  tire_id     String    @db.VarChar(50)
+  buyer_id    String    @db.VarChar(50)
+  quantity    Int       @db.Integer
+  price_total Float     @db.DoublePrecision
+  status      Status
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  deleted_at  DateTime?
+
+  buyer Users @relation(fields: [buyer_id], references: [id], onDelete: Cascade)
+  tire  Tire  @relation(fields: [tire_id], references: [id], onDelete: Cascade)
+
+  @@map("order")
+}
+
+enum Status {
+  PEDING
+  PAID
+  SENT
+  COMPLETED
+}
+
+enum UserType {
+  SELLER
+  BUYER
+}
