@@ -1,9 +1,10 @@
 import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common';
-import { ApiBadRequestResponse, ApiResponse } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 import { ErrorSchema } from "@app/@common/application/documentations/openapi/swagger/error.schema";
 import { ApiServerConfig } from "@core/@shared/infrastructure/config/env";
 
+@ApiTags('Default')
 @Controller({
   version: '1',
 })

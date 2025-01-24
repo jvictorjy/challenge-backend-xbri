@@ -10,16 +10,16 @@ const logger = new Logger('Swagger');
 
 export const applySwagger = (app: INestApplication) => {
   const config = new DocumentBuilder()
-    .setTitle('Authentication API')
+    .setTitle('Challenge Backend XBRI')
     .setDescription('API to access manager')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
 
-  const theme = new SwaggerTheme('v3');
+  const theme = new SwaggerTheme();
   const customOptions: SwaggerCustomOptions = {
-    customSiteTitle: 'Authentication API Docs',
+    customSiteTitle: 'Challenge Backend XBRI Docs',
     customCss: theme.getBuffer(SwaggerThemeNameEnum.ONE_DARK),
     explorer: true,
     swaggerOptions: {
