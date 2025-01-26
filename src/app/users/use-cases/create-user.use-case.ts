@@ -33,6 +33,7 @@ export class CreateUserUseCase {
     } catch (error) {
       throw Exception.new({
         code: Code.BAD_REQUEST.code,
+        overrideMessage: error.message,
       });
     }
   }
