@@ -5,10 +5,8 @@ import {
   OnModuleInit,
 } from '@nestjs/common';
 import { Prisma, PrismaClient } from '@prisma/client';
-import { DATABASE_URL } from "@app/@common/application/config";
-import { DatabaseServerConfig } from "@core/@shared/infrastructure/config/env";
-
-
+import { DATABASE_URL } from '@app/@common/application/config';
+import { DatabaseServerConfig } from '@core/@shared/infrastructure/config/env';
 
 @Injectable()
 export class PrismaDatabaseAdapter

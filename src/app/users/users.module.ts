@@ -17,11 +17,6 @@ const persistenceProviders: Provider[] = [
     inject: [PrismaDatabaseAdapter],
   },
   {
-    provide: UsersDITokens.UserRepository,
-    useFactory: (prisma: PrismaClient) => new PrismaUserRepository(prisma),
-    inject: [PrismaDatabaseAdapter],
-  },
-  {
     provide: BcryptDIToken.HashGenerator,
     useFactory: (hasher: BcryptHasher) => hasher,
     inject: [BcryptHasher],
