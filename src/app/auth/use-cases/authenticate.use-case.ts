@@ -27,7 +27,7 @@ export class AuthenticateUseCase {
       if (!user) {
         throw Exception.new({
           code: Code.NOT_FOUND.code,
-          overrideMessage: `User not found`,
+          overrideMessage: `User or password invalid`,
         });
       }
 
@@ -38,7 +38,7 @@ export class AuthenticateUseCase {
 
       if (!isPasswordValid) {
         throw Exception.new({
-          code: Code.BAD_REQUEST.code,
+          code: Code.UNAUTHORIZED.code,
           overrideMessage: `User or password invalid`,
         });
       }

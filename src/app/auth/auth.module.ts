@@ -9,8 +9,9 @@ import { BcryptDIToken } from '@app/@common/infrastructure/adapters/cryptography
 import { BcryptHasher } from '@app/@common/infrastructure/adapters/cryptography/bcryptjs/bcrypt-hasher';
 import { AuthenticateUseCase } from '@app/auth/use-cases';
 import { SignInController } from '@app/auth/controllers';
-import { JwtService } from '@nestjs/jwt';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 import { JwtEncrypter } from '@app/@common/infrastructure/adapters/cryptography/bcryptjs/jwt-encrypter';
+import { AuthServerConfig } from '@core/@shared/infrastructure/config/env';
 
 const persistenceProviders: Provider[] = [
   {
@@ -26,12 +27,28 @@ const persistenceProviders: Provider[] = [
   {
     provide: BcryptDIToken.Encrypter,
     useFactory: (jwt: JwtService) => new JwtEncrypter(jwt),
-    inject: [JwtEncrypter],
+    inject: [JwtService],
   },
 ];
 
 @Module({
-  imports: [DatabaseModule, CryptographyModule],
+  imports: [
+    DatabaseModule,
+    JwtModule.registerAsync({
+      global: true,
+      useFactory() {
+        const privateKey = AuthServerConfig.PRIVATE_KEY;
+        const publicKey = AuthServerConfig.PUBLIC_KEY;
+
+        return {
+          signOptions: { algorithm: 'RS256' },
+          privateKey: Buffer.from(privateKey, 'base64'),
+          publicKey: Buffer.from(publicKey, 'base64'),
+        };
+      },
+    }),
+    CryptographyModule,
+  ],
   controllers: [SignInController],
   providers: [...persistenceProviders, AuthenticateUseCase],
 })
