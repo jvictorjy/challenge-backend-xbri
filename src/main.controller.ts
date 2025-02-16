@@ -1,8 +1,9 @@
 import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common';
-import { ApiBadRequestResponse, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBadRequestResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { ErrorSchema } from "@app/@common/application/documentations/openapi/swagger/error.schema";
-import { ApiServerConfig } from "@core/@shared/infrastructure/config/env";
+import { ErrorSchema } from '@app/@common/application/documentations/openapi/swagger/error.schema';
+import { ApiServerConfig } from '@core/@shared/infrastructure/config/env';
+import { Public } from '@app/auth/infra';
 
 @ApiTags('Default')
 @Controller({
@@ -11,6 +12,7 @@ import { ApiServerConfig } from "@core/@shared/infrastructure/config/env";
 @ApiBadRequestResponse({ description: 'Bad Request' })
 export class MainController {
   @Get('healthcheck')
+  @Public()
   @HttpCode(HttpStatus.OK)
   @ApiResponse({ status: HttpStatus.OK, type: ErrorSchema })
   execute(): { status: string } {

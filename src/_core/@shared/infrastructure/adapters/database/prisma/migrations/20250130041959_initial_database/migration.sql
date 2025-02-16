@@ -23,6 +23,7 @@ CREATE TABLE "tire" (
     "id" TEXT NOT NULL,
     "name" VARCHAR(255) NOT NULL,
     "brand" VARCHAR(255) NOT NULL,
+    "size" VARCHAR(50) NOT NULL,
     "price" DOUBLE PRECISION NOT NULL,
     "quantity_available" INTEGER NOT NULL,
     "seller_id" VARCHAR(50) NOT NULL,

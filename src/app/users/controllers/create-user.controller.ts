@@ -12,6 +12,7 @@ import { ErrorSchema } from '@app/@common/application/documentations/openapi/swa
 import { CreateUserDtoInput } from '@app/users/dto';
 import { ZodValidationPipe } from '@app/@common/application/pipes/zod-validation.pipe';
 import { CreateUserSchemaValidation } from '@app/users/validations/create-user.schema.validation';
+import { Public } from '@app/auth/infra';
 
 @Controller('users')
 @ApiTags('Users')
@@ -25,6 +26,7 @@ export class CreateUserController {
   constructor(private readonly useCase: CreateUserUseCase) {}
 
   @Post()
+  @Public()
   @HttpCode(HttpStatus.CREATED)
   @ApiResponse({
     status: HttpStatus.CREATED,

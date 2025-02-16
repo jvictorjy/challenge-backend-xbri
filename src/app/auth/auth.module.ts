@@ -12,6 +12,8 @@ import { SignInController } from '@app/auth/controllers';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { JwtEncrypter } from '@app/@common/infrastructure/adapters/cryptography/bcryptjs/jwt-encrypter';
 import { AuthServerConfig } from '@core/@shared/infrastructure/config/env';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtGuard, JwtStrategy } from '@app/auth/infra';
 
 const persistenceProviders: Provider[] = [
   {
@@ -28,6 +30,13 @@ const persistenceProviders: Provider[] = [
     provide: BcryptDIToken.Encrypter,
     useFactory: (jwt: JwtService) => new JwtEncrypter(jwt),
     inject: [JwtService],
+  },
+];
+
+const providers: Provider[] = [
+  {
+    provide: APP_GUARD,
+    useClass: JwtGuard,
   },
 ];
 
@@ -50,6 +59,11 @@ const persistenceProviders: Provider[] = [
     CryptographyModule,
   ],
   controllers: [SignInController],
-  providers: [...persistenceProviders, AuthenticateUseCase],
+  providers: [
+    ...persistenceProviders,
+    ...providers,
+    AuthenticateUseCase,
+    JwtStrategy,
+  ],
 })
 export class AuthModule {}

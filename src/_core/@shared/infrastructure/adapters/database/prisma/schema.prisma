@@ -32,6 +32,7 @@ model Tire {
   id                 String    @id @default(uuid())
   name               String    @db.VarChar(255)
   brand              String    @db.VarChar(255)
+  size               String    @db.VarChar(50)
   price              Float     @db.DoublePrecision
   quantity_available Int       @db.Integer
   seller_id          String    @db.VarChar(50)

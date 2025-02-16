@@ -1,3 +1,4 @@
+import { CreateTireUseCases } from '@app/tire/use-cases';
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -8,35 +9,32 @@ import {
   ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
 import { ErrorSchema } from '@app/@common/application/documentations/openapi/swagger/error.schema';
-import { AuthenticateUseCase } from '@app/auth/use-cases';
-import { SignInDto, SignInResponseDto } from '@app/auth/dto';
+import { CreateTireDtoRequest } from '@app/tire/dto';
 import { ZodValidationPipe } from '@app/@common/application/pipes/zod-validation.pipe';
-import { SignInSchemaValidation } from '@app/auth/validations';
-import { Public } from '@app/auth/infra';
+import { CreateTireSchemaValidation } from '@app/tire/validations';
 
-@Controller('auth')
-@ApiTags('Auth')
+@Controller('tire')
+@ApiTags('Tire')
 @ApiBadRequestResponse({ description: 'Bad Request', type: ErrorSchema })
 @ApiNotFoundResponse({ description: 'Not Found', type: ErrorSchema })
 @ApiUnprocessableEntityResponse({
   description: 'Unprocessable Entity',
   type: ErrorSchema,
 })
-export class SignInController {
-  constructor(private readonly authenticateUseCase: AuthenticateUseCase) {}
+export class CreateTireController {
+  constructor(private readonly useCase: CreateTireUseCases) {}
 
   @Post()
-  @HttpCode(HttpStatus.OK)
+  @HttpCode(HttpStatus.CREATED)
   @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'Authentication successful',
+    status: HttpStatus.CREATED,
+    description: 'Tire created',
   })
-  @Public()
-  @ApiBody({ type: SignInDto })
+  @ApiBody({ type: CreateTireDtoRequest })
   async execute(
-    @Body(new ZodValidationPipe(new SignInSchemaValidation()))
-    data: SignInDto,
-  ): Promise<SignInResponseDto> {
-    return this.authenticateUseCase.execute(data);
+    @Body(new ZodValidationPipe(new CreateTireSchemaValidation()))
+    data: CreateTireDtoRequest,
+  ) {
+    return this.useCase.execute(data);
   }
 }
