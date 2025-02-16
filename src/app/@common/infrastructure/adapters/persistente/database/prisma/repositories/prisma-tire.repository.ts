@@ -1,6 +1,6 @@
 import { TireRepository } from '@app/tire/repositories';
 import { CreateTireDtoRequest } from '@app/tire/dto';
-import { Prisma, PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient, Tire } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -22,5 +22,13 @@ export class PrismaTireRepository implements TireRepository {
     } catch (e) {
       console.log(e);
     }
+  }
+
+  async findOne(id: string): Promise<Tire> {
+    return this.prisma.tire.findFirst({
+      where: {
+        id,
+      },
+    });
   }
 }

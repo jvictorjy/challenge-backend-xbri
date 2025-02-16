@@ -11,6 +11,7 @@ import { ApiServerConfig } from '@core/@shared/infrastructure/config/env';
 import { HttpLoggingInterceptor } from '@app/@common/application/interceptors/http-logging.interceptor';
 import { ConfigModule } from '@nestjs/config';
 import { TireModule } from '@app/tire/tire.module';
+import { OrderModule } from './app/order/order.module';
 
 const providers: Provider[] = [
   {
@@ -38,6 +39,7 @@ if (ApiServerConfig.LOG_ENABLE) {
     AuthModule,
     UsersModule,
     TireModule,
+    OrderModule,
   ],
   controllers: [MainController],
   providers,
