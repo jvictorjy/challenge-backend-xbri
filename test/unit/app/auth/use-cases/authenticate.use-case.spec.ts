@@ -6,6 +6,7 @@ import { UsersDITokens } from '@app/@common/infrastructure/adapters/persistente/
 import { BcryptDIToken } from '@app/@common/infrastructure/adapters/cryptography/bcryptjs/di/BcryptDIToken';
 import { Exception } from '@core/@shared/domain/exception/Exception';
 import { Code } from '@core/@shared/domain/error/Code';
+import { UserType } from '@app/users/enum';
 
 describe('AuthenticateUseCase', () => {
   let useCase: AuthenticateUseCase;
@@ -47,9 +48,14 @@ describe('AuthenticateUseCase', () => {
   it('should authenticate successfully with valid credentials', async () => {
     const data = { email: 'test@example.com', password: 'password123' };
     const user = {
-      id: 1,
+      id: 'uuid',
+      name: 'Test',
       email: 'test@example.com',
       password: 'hashedPassword',
+      user_type: UserType.SELLER,
+      created_at: new Date(),
+      updated_at: new Date(),
+      deleted_at: null,
     };
     const accessToken = 'validToken';
 
@@ -75,8 +81,8 @@ describe('AuthenticateUseCase', () => {
 
     await expect(useCase.execute(data)).rejects.toThrow(
       Exception.new({
-        code: Code.NOT_FOUND.code,
-        overrideMessage: 'User not found',
+        code: Code.UNAUTHORIZED.code,
+        overrideMessage: 'User or password invalid',
       }),
     );
   });
@@ -84,9 +90,14 @@ describe('AuthenticateUseCase', () => {
   it('should throw an error if password is invalid', async () => {
     const data = { email: 'test@example.com', password: 'password123' };
     const user = {
-      id: 1,
+      id: 'uuid',
+      name: 'Test',
       email: 'test@example.com',
       password: 'hashedPassword',
+      user_type: UserType.SELLER,
+      created_at: new Date(),
+      updated_at: new Date(),
+      deleted_at: null,
     };
 
     jest.spyOn(userRepository, 'findByEmail').mockResolvedValue(user);
@@ -103,9 +114,14 @@ describe('AuthenticateUseCase', () => {
   it('should throw an error if encryption fails', async () => {
     const data = { email: 'test@example.com', password: 'password123' };
     const user = {
-      id: 1,
+      id: 'uuid',
+      name: 'Test',
       email: 'test@example.com',
       password: 'hashedPassword',
+      user_type: UserType.SELLER,
+      created_at: new Date(),
+      updated_at: new Date(),
+      deleted_at: null,
     };
 
     jest.spyOn(userRepository, 'findByEmail').mockResolvedValue(user);

@@ -20,6 +20,4 @@ export class CreateTireDtoRequest {
 
   @ApiProperty({ type: 'string', example: faker.string.uuid() })
   seller_id: string;
-
-  seller: Users;
 }
