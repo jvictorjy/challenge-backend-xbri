@@ -24,6 +24,19 @@ export class PrismaTireRepository implements TireRepository {
     }
   }
 
+  async updateStock(id: string, quantity: number): Promise<void> {
+    await this.prisma.tire.update({
+      where: {
+        id,
+      },
+      data: {
+        quantity_available: {
+          decrement: quantity,
+        },
+      },
+    });
+  }
+
   async findOne(id: string): Promise<Tire> {
     return this.prisma.tire.findFirst({
       where: {

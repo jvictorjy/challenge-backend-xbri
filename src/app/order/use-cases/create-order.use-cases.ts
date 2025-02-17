@@ -42,7 +42,16 @@ export class CreateOrderUseCase {
         });
       }
 
+      if (tire.quantity_available < payload.quantity) {
+        throw Exception.new({
+          code: Code.BAD_REQUEST.code,
+          overrideMessage: `Insufficient stock`,
+        });
+      }
+
       await this.orderRepository.create(payload);
+
+      await this.tireRepository.updateStock(payload.tire_id, payload.quantity);
     } catch (error) {
       throw Exception.new({
         code: error.code,
