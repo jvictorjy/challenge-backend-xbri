@@ -6,8 +6,9 @@ import { PrismaDatabaseAdapter } from '@app/@common/infrastructure/adapters/pers
 import { TireDITokens } from '@app/@common/infrastructure/adapters/persistente/database/prisma/di/TireDITokens';
 import { DatabaseModule } from '@app/@common/infrastructure/adapters/persistente/database/database.module';
 import { CreateTireController } from '@app/tire/controllers';
-import { CreateTireUseCases } from '@app/tire/use-cases';
+import { CreateTireUseCases, DeleteTireUseCase } from '@app/tire/use-cases';
 import { PrismaTireRepository } from '@app/@common/infrastructure/adapters/persistente/database/prisma/repositories/prisma-tire.repository';
+import { DeleteTireController } from '@app/tire/controllers/delete-tire.controller';
 
 const persistenceProviders: Provider[] = [
   {
@@ -24,7 +25,7 @@ const persistenceProviders: Provider[] = [
 
 @Module({
   imports: [DatabaseModule],
-  controllers: [CreateTireController],
-  providers: [...persistenceProviders, CreateTireUseCases],
+  controllers: [CreateTireController, DeleteTireController],
+  providers: [...persistenceProviders, CreateTireUseCases, DeleteTireUseCase],
 })
 export class TireModule {}

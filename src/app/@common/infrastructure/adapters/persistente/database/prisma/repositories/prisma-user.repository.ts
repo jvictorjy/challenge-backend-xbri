@@ -19,18 +19,6 @@ export class PrismaUserRepository implements UserRepository {
     await this.prisma.users.create({ data });
   }
 
-  async update(id: string, data: any): Promise<any> {
-    return data;
-  }
-
-  async delete(id: string): Promise<any> {
-    return id;
-  }
-
-  async findAll(): Promise<Users[]> {
-    return this.prisma.users.findMany();
-  }
-
   async findOne(id: string): Promise<Users> {
     return this.prisma.users.findFirst({
       where: {
@@ -43,6 +31,15 @@ export class PrismaUserRepository implements UserRepository {
     return this.prisma.users.findFirst({
       where: {
         email,
+      },
+    });
+  }
+
+  async findSeller(id: string): Promise<Users> {
+    return this.prisma.users.findFirst({
+      where: {
+        id,
+        user_type: $Enums.UserType.SELLER,
       },
     });
   }
