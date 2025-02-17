@@ -20,7 +20,7 @@ export class CreateTireUseCases {
 
   async execute(payload: CreateTireDtoRequest): Promise<void> {
     try {
-      const seller = await this.sellerRepository.findOne(payload.seller_id);
+      const seller = await this.sellerRepository.findSeller(payload.seller_id);
 
       if (!seller) {
         throw Exception.new({

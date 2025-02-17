@@ -6,6 +6,7 @@ import { UserRepository } from '@app/users/repositories';
 import { UsersDITokens } from '@app/@common/infrastructure/adapters/persistente/database/prisma/di/UsersDITokens';
 import { TireDITokens } from '@app/@common/infrastructure/adapters/persistente/database/prisma/di/TireDITokens';
 import { TireRepository } from '@app/tire/repositories';
+import { UserType } from '@app/users/enum';
 
 describe('CreateTireUseCases', () => {
   let useCase: CreateTireUseCases;
@@ -26,6 +27,7 @@ describe('CreateTireUseCases', () => {
           provide: UsersDITokens.UserRepository,
           useValue: {
             findOne: jest.fn(),
+            findSeller: jest.fn(),
           },
         },
       ],
@@ -62,19 +64,19 @@ describe('CreateTireUseCases', () => {
       name: 'John Doe',
       email: 'teste@test.com',
       password: '12345678',
-      user_type: 'SELLER',
+      user_type: UserType.SELLER,
       created_at: new Date(),
       updated_at: new Date(),
       deleted_at: null,
     };
 
-    jest.spyOn(userRepository, 'findOne').mockResolvedValue(user);
+    jest.spyOn(userRepository, 'findSeller').mockResolvedValue(user);
     jest.spyOn(tireRepository, 'create').mockResolvedValue(tire);
 
     const result = await useCase.execute(dto);
 
-    expect(result).toEqual(undefined);
-    expect(userRepository.findOne).toHaveBeenCalledWith('uuid');
+    expect(result).toBeUndefined();
+    expect(userRepository.findSeller).toHaveBeenCalledWith('uuid');
     expect(tireRepository.create).toHaveBeenCalledWith({
       ...dto,
       seller: user,
@@ -114,10 +116,10 @@ describe('CreateTireUseCases', () => {
       updated_at: new Date(),
       deleted_at: null,
     };
-    jest.spyOn(userRepository, 'findOne').mockResolvedValue(user);
+    jest.spyOn(userRepository, 'findSeller').mockResolvedValue(user);
     jest
       .spyOn(tireRepository, 'create')
-      .mockRejectedValue(new Error('Creation failed'));
+      .mockRejectedValue(new Error('Status code not found'));
 
     await expect(useCase.execute(dto)).rejects.toThrowError(
       'Status code not found',
