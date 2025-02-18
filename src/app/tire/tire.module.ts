@@ -5,8 +5,15 @@ import { PrismaUserRepository } from '@app/@common/infrastructure/adapters/persi
 import { PrismaDatabaseAdapter } from '@app/@common/infrastructure/adapters/persistente/database/prisma/prisma-database.adapter';
 import { TireDITokens } from '@app/@common/infrastructure/adapters/persistente/database/prisma/di/TireDITokens';
 import { DatabaseModule } from '@app/@common/infrastructure/adapters/persistente/database/database.module';
-import { CreateTireController } from '@app/tire/controllers';
-import { CreateTireUseCases, DeleteTireUseCase } from '@app/tire/use-cases';
+import {
+  CreateTireController,
+  UpdateTireController,
+} from '@app/tire/controllers';
+import {
+  CreateTireUseCases,
+  DeleteTireUseCase,
+  UpdateTireUseCases,
+} from '@app/tire/use-cases';
 import { PrismaTireRepository } from '@app/@common/infrastructure/adapters/persistente/database/prisma/repositories/prisma-tire.repository';
 import { DeleteTireController } from '@app/tire/controllers/delete-tire.controller';
 
@@ -25,7 +32,16 @@ const persistenceProviders: Provider[] = [
 
 @Module({
   imports: [DatabaseModule],
-  controllers: [CreateTireController, DeleteTireController],
-  providers: [...persistenceProviders, CreateTireUseCases, DeleteTireUseCase],
+  controllers: [
+    CreateTireController,
+    DeleteTireController,
+    UpdateTireController,
+  ],
+  providers: [
+    ...persistenceProviders,
+    CreateTireUseCases,
+    DeleteTireUseCase,
+    UpdateTireUseCases,
+  ],
 })
 export class TireModule {}

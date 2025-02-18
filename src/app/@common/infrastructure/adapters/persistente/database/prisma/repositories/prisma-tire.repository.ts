@@ -40,9 +40,12 @@ export class PrismaTireRepository implements TireRepository {
   }
 
   async delete(id: string): Promise<void> {
-    await this.prisma.tire.delete({
+    await this.prisma.tire.update({
       where: {
         id,
+      },
+      data: {
+        deleted_at: new Date(),
       },
     });
   }

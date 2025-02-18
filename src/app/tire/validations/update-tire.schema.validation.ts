@@ -1,7 +1,7 @@
 import { CreateValidationSchema } from '@app/@common/application/validators/zod/schemas/create-schema.interface';
 import { z } from 'zod';
 
-export class CreateTireSchemaValidation implements CreateValidationSchema {
+export class UpdateTireSchemaValidation implements CreateValidationSchema {
   createSchema(): z.ZodSchema {
     return z.object({
       name: z

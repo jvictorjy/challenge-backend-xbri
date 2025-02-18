@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { faker } from '@faker-js/faker/locale/pt_BR';
 
-export class CreateTireDtoRequest {
+export class UpdateTireRequestDTO {
   @ApiProperty({ type: 'string', example: faker.lorem.words() })
   name: string;
 
