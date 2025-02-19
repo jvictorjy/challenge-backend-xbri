@@ -59,6 +59,7 @@ describe('CreateTireUseCases', () => {
       updated_at: new Date(),
       deleted_at: null,
     };
+
     const user: Users = {
       id: 'uuid',
       name: 'John Doe',
