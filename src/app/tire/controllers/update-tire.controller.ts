@@ -1,8 +1,17 @@
-import { Body, Controller, Param, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Put,
+} from '@nestjs/common';
 import { UpdateTireUseCases } from '@app/tire/use-cases';
 import {
   ApiBadRequestResponse,
+  ApiBody,
   ApiNotFoundResponse,
+  ApiResponse,
   ApiTags,
   ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
@@ -24,7 +33,13 @@ export class UpdateTireController {
   constructor(private readonly updateTireUseCase: UpdateTireUseCases) {}
 
   @Put(':id')
-  async updateTire(
+  @HttpCode(HttpStatus.CREATED)
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'Tire updated',
+  })
+  @ApiBody({ type: UpdateTireRequestDTO })
+  async handle(
     @Param('id', new ZodValidationPipe(new UUIDSchemaValidation())) id: string,
     @Body(new ZodValidationPipe(new UpdateTireSchemaValidation()))
     payload: UpdateTireRequestDTO,

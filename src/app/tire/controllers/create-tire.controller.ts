@@ -31,7 +31,7 @@ export class CreateTireController {
     description: 'Tire created',
   })
   @ApiBody({ type: CreateTireDtoRequest })
-  async execute(
+  async handle(
     @Body(new ZodValidationPipe(new CreateTireSchemaValidation()))
     data: CreateTireDtoRequest,
   ) {

@@ -51,7 +51,11 @@ export class PrismaTireRepository implements TireRepository {
   }
 
   async findAll(): Promise<Tire[]> {
-    return this.prisma.tire.findMany();
+    return this.prisma.tire.findMany({
+      where: {
+        deleted_at: null,
+      },
+    });
   }
 
   async updateStock(id: string, quantity: number): Promise<void> {

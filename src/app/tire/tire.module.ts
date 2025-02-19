@@ -12,10 +12,12 @@ import {
 import {
   CreateTireUseCases,
   DeleteTireUseCase,
+  ListTireUseCase,
   UpdateTireUseCases,
 } from '@app/tire/use-cases';
 import { PrismaTireRepository } from '@app/@common/infrastructure/adapters/persistente/database/prisma/repositories/prisma-tire.repository';
 import { DeleteTireController } from '@app/tire/controllers/delete-tire.controller';
+import { ListTireController } from '@app/tire/controllers/list-tire.controller';
 
 const persistenceProviders: Provider[] = [
   {
@@ -36,12 +38,14 @@ const persistenceProviders: Provider[] = [
     CreateTireController,
     DeleteTireController,
     UpdateTireController,
+    ListTireController,
   ],
   providers: [
     ...persistenceProviders,
     CreateTireUseCases,
     DeleteTireUseCase,
     UpdateTireUseCases,
+    ListTireUseCase,
   ],
 })
 export class TireModule {}
