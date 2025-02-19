@@ -34,7 +34,7 @@ describe('CreateTireController', () => {
       size: '225/220R17',
     };
 
-    const result = await controller.execute(dto);
+    const result = await controller.handle(dto);
 
     expect(result).toEqual(undefined);
     expect(useCase.execute).toHaveBeenCalledWith(dto);
@@ -48,7 +48,7 @@ describe('CreateTireController', () => {
       .spyOn(useCase, 'execute')
       .mockRejectedValue(new Error('Unprocessable Entity'));
 
-    await expect(controller.execute(dto)).rejects.toThrowError(
+    await expect(controller.handle(dto)).rejects.toThrowError(
       'Unprocessable Entity',
     );
   });

@@ -70,9 +70,7 @@ describe('UpdateTireController', () => {
     const schemaValidation = new UUIDSchemaValidation();
     const validationPipe = new ZodValidationPipe(schemaValidation);
 
-    await expect(
-      validationPipe.transform(id, { type: 'param' }),
-    ).rejects.toThrowError();
+    await expect(validationPipe.transform(id)).rejects.toThrowError();
   });
 
   it('should throw an error if payload is invalid', async () => {
@@ -87,8 +85,6 @@ describe('UpdateTireController', () => {
     const schemaValidation = new UpdateTireSchemaValidation();
     const validationPipe = new ZodValidationPipe(schemaValidation);
 
-    await expect(
-      validationPipe.transform(payload, { type: 'body' }),
-    ).rejects.toThrowError();
+    await expect(validationPipe.transform(payload)).rejects.toThrowError();
   });
 });
