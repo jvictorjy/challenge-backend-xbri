@@ -41,7 +41,7 @@ describe('CreateTireController', () => {
   });
 
   it('should return unprocessable entity for unprocessable data', async () => {
-    const dto: CreateTireDtoRequest = {
+    const dto: any = {
       /* unprocessable DTO properties */
     };
     jest

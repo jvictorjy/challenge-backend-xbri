@@ -64,7 +64,7 @@ model Order {
 }
 
 enum Status {
-  PEDING
+  PENDING
   PAID
   SENT
   COMPLETED

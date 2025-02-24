@@ -13,7 +13,7 @@ import {
 } from '@nestjs/swagger';
 import { ErrorSchema } from '@app/@common/application/documentations/openapi/swagger/error.schema';
 
-@Controller('order')
+@Controller('orders')
 @ApiTags('Order')
 @ApiBadRequestResponse({ description: 'Bad Request', type: ErrorSchema })
 @ApiNotFoundResponse({ description: 'Not Found', type: ErrorSchema })

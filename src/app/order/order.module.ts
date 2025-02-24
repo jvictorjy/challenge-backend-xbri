@@ -12,6 +12,8 @@ import { PrismaDatabaseAdapter } from '@app/@common/infrastructure/adapters/pers
 import { PrismaClient } from '@prisma/client';
 import { TireDITokens } from '@app/@common/infrastructure/adapters/persistente/database/prisma/di/TireDITokens';
 import { OrderDITokens } from '@app/@common/infrastructure/adapters/persistente/database/prisma/di/OrderDITokens';
+import { UpdateStatusOrderController } from '@app/order/controllers';
+import { UpdateStatusOrderUseCase } from '@app/order/use-cases/update-status-order.use-case';
 
 const persistenceProviders: Provider[] = [
   {
@@ -33,7 +35,11 @@ const persistenceProviders: Provider[] = [
 
 @Module({
   imports: [DatabaseModule],
-  controllers: [CreateOrderController],
-  providers: [...persistenceProviders, CreateOrderUseCase],
+  controllers: [CreateOrderController, UpdateStatusOrderController],
+  providers: [
+    ...persistenceProviders,
+    CreateOrderUseCase,
+    UpdateStatusOrderUseCase,
+  ],
 })
 export class OrderModule {}
